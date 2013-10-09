@@ -89,7 +89,7 @@
 	F.helpers.media = {
 		defaults : {
 			youtube : {
-				matcher : /(youtube\.com|youtu\.be|youtube-nocookie\.com)\/(watch\?v=|v\/|u\/|embed\/?)?(videoseries\?list=(.*)|[\w-]{11}|\?listType=(.*)&list=(.*)).*/i,
+				matcher : /(https?):\/\/.*?(youtube\.com|youtu\.be|youtube-nocookie\.com)\/(watch\?v=|v\/|u\/|embed\/?)?(videoseries\?list=(.*)|[\w-]{11}|\?listType=(.*)&list=(.*)).*/i,
 				params  : {
 					autoplay    : 1,
 					autohide    : 1,
@@ -100,10 +100,10 @@
 					enablejsapi : 1
 				},
 				type : 'iframe',
-				url  : '//www.youtube.com/embed/$3'
+				url  : '$1://www.youtube.com/embed/$4'
 			},
 			vimeo : {
-				matcher : /(?:vimeo(?:pro)?.com)\/(?:[^\d]+)?(\d+)(?:.*)/,
+				matcher : /(https?):\/\/.*?(?:vimeo(?:pro)?.com)\/(?:[^\d]+)?(\d+)(?:.*)/,
 				params  : {
 					autoplay      : 1,
 					hd            : 1,
@@ -113,10 +113,10 @@
 					fullscreen    : 1
 				},
 				type : 'iframe',
-				url  : '//player.vimeo.com/video/$1'
+				url  : '$1://player.vimeo.com/video/$2'
 			},
 			metacafe : {
-				matcher : /metacafe.com\/(?:watch|fplayer)\/([\w\-]{1,10})/,
+				matcher : /(https?):\/\/.*?metacafe.com\/(?:watch|fplayer)\/([\w\-]{1,10})/,
 				params  : {
 					autoPlay : 'yes'
 				},
@@ -124,41 +124,41 @@
 				url  : function( rez, params, obj ) {
 					obj.swf.flashVars = 'playerVars=' + $.param( params, true );
 
-					return '//www.metacafe.com/fplayer/' + rez[1] + '/.swf';
+					return rez[1] + '://www.metacafe.com/fplayer/' + rez[2] + '/.swf';
 				}
 			},
 			dailymotion : {
-				matcher : /dailymotion.com\/video\/(.*)\/?(.*)/,
+				matcher : /(https?):\/\/.*?dailymotion.com\/video\/(.*)\/?(.*)/,
 				params  : {
 					additionalInfos : 0,
 					autoStart : 1
 				},
 				type : 'swf',
-				url  : '//www.dailymotion.com/swf/video/$1'
+				url  : '$1://www.dailymotion.com/swf/video/$2'
 			},
 			twitvid : {
-				matcher : /twitvid\.com\/([a-zA-Z0-9_\-\?\=]+)/i,
+				matcher : /(https?):\/\/.*?twitvid\.com\/([a-zA-Z0-9_\-\?\=]+)/i,
 				params  : {
 					autoplay : 0
 				},
 				type : 'iframe',
-				url  : '//www.twitvid.com/embed.php?guid=$1'
+				url  : '$1://www.twitvid.com/embed.php?guid=$2'
 			},
 			twitpic : {
-				matcher : /twitpic\.com\/(?!(?:place|photos|events)\/)([a-zA-Z0-9\?\=\-]+)/i,
+				matcher : /(https?):\/\/.*?twitpic\.com\/(?!(?:place|photos|events)\/)([a-zA-Z0-9\?\=\-]+)/i,
 				type : 'image',
-				url  : '//twitpic.com/show/full/$1/'
+				url  : '$1://twitpic.com/show/full/$2/'
 			},
 			instagram : {
-				matcher : /(instagr\.am|instagram\.com)\/p\/([a-zA-Z0-9_\-]+)\/?/i,
+				matcher : /(https?):\/\/.*?(instagr\.am|instagram\.com)\/p\/([a-zA-Z0-9_\-]+)\/?/i,
 				type : 'image',
-				url  : '//$1/p/$2/media/?size=l'
+				url  : '$1://$2/p/$3/media/?size=l'
 			},
 			google_maps : {
-				matcher : /maps\.google\.([a-z]{2,3}(\.[a-z]{2})?)\/(\?ll=|maps\?)(.*)/i,
+				matcher : /(https?):\/\/.*?maps\.google\.([a-z]{2,3}(\.[a-z]{2})?)\/(\?ll=|maps\?)(.*)/i,
 				type : 'iframe',
 				url  : function( rez ) {
-					return '//maps.google.' + rez[1] + '/' + rez[3] + '' + rez[4] + '&output=' + (rez[4].indexOf('layer=c') > 0 ? 'svembed' : 'embed');
+					return rez[1] + '://maps.google.' + rez[2] + '/' + rez[4] + '' + rez[5] + '&output=' + (rez[5].indexOf('layer=c') > 0 ? 'svembed' : 'embed');
 				}
 			}
 		},
